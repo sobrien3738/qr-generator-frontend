@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { qrAPI } from '../utils/api';
+import { downloadDataURL } from '../utils/download';
 import { QRCode } from '../types';
 import { QrCode, BarChart3, Download, Edit, Trash2, Eye, EyeOff } from 'lucide-react';
 import './Dashboard.css';
@@ -144,6 +145,10 @@ const Dashboard: React.FC = () => {
                     src={qrCode.qrCodeData} 
                     alt="QR Code" 
                     className="qr-preview"
+                    onError={(e) => {
+                      console.error('Failed to load QR code preview:', qrCode.qrCodeData);
+                      e.currentTarget.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjRkZGRkZGIiBzdHJva2U9IiNEREREREQiLz4KPHRleHQgeD0iNTAiIHk9IjU1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiM5OTk5OTkiPlFSIEVycm9yPC90ZXh0Pgo8L3N2Zz4=';
+                    }}
                   />
                   
                   <div className="qr-info">
@@ -173,10 +178,8 @@ const Dashboard: React.FC = () => {
                       
                       <button
                         onClick={() => {
-                          const link = document.createElement('a');
-                          link.href = qrCode.qrCodeData;
-                          link.download = `qr-${qrCode.shortId}.png`;
-                          link.click();
+                          const filename = `qr-${qrCode.shortId || qrCode.id}.png`;
+                          downloadDataURL(qrCode.qrCodeData, filename);
                         }}
                         className="download-btn"
                       >

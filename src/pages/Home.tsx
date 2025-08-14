@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { qrAPI } from '../utils/api';
+import { downloadDataURL } from '../utils/download';
 import { QRCode } from '../types';
 import { Download, Link as LinkIcon, Settings, BarChart3, Copy, CheckCircle } from 'lucide-react';
 import './Home.css';
@@ -75,10 +76,8 @@ const Home: React.FC = () => {
   const downloadQR = () => {
     if (!qrCode) return;
     
-    const link = document.createElement('a');
-    link.href = qrCode.qrCodeData;
-    link.download = `qr-code-${qrCode.shortId}.png`;
-    link.click();
+    const filename = `qr-code-${qrCode.shortId || 'download'}.png`;
+    downloadDataURL(qrCode.qrCodeData, filename);
   };
 
   return (
@@ -280,6 +279,13 @@ const Home: React.FC = () => {
                 src={qrCode.qrCodeData} 
                 alt="Generated QR Code" 
                 className="qr-image"
+                onError={(e) => {
+                  console.error('Failed to load QR code image:', qrCode.qrCodeData);
+                  e.currentTarget.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjU2IiBoZWlnaHQ9IjI1NiIgdmlld0JveD0iMCAwIDI1NiAyNTYiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyNTYiIGhlaWdodD0iMjU2IiBmaWxsPSIjRkZGRkZGIiBzdHJva2U9IiNEREREREQiLz4KPHRleHQgeD0iMTI4IiB5PSIxMzgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OTk5OSI+UVIgQ29kZSBFcnJvcjwvdGV4dD4KPC9zdmc+';
+                }}
+                onLoad={() => {
+                  console.log('QR code image loaded successfully');
+                }}
               />
             </div>
 
