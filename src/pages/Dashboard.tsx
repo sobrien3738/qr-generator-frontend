@@ -189,18 +189,18 @@ const Dashboard: React.FC = () => {
                     <div className="qr-card-footer">
                       <button
                         onClick={() => handleView(qrCode)}
-                        className="view-btn-dashboard"
+                        className="qr-footer-btn view-btn"
                       >
-                        <Eye size={16} />
+                        <Eye size={14} />
                         View
                       </button>
 
                       <a 
                         href={`/qr/${qrCode.id}`}
-                        className="view-analytics-btn"
+                        className="qr-footer-btn analytics-btn"
                       >
-                        <BarChart3 size={16} />
-                        Details
+                        <BarChart3 size={14} />
+                        Stats
                       </a>
                       
                       <button
@@ -208,10 +208,10 @@ const Dashboard: React.FC = () => {
                           const filename = `qr-${qrCode.shortId || qrCode.id}.png`;
                           downloadDataURL(qrCode.qrCodeData, filename);
                         }}
-                        className="download-btn"
+                        className="qr-footer-btn download-btn"
                       >
-                        <Download size={16} />
-                        Download
+                        <Download size={14} />
+                        Save
                       </button>
                     </div>
                   </div>
