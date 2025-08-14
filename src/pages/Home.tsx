@@ -103,14 +103,17 @@ const Home: React.FC = () => {
                 Enter your URL
               </label>
               <input
-                type="url"
+                type="text"
                 id="url"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
-                placeholder="https://example.com"
+                placeholder="instagram.com, www.example.com, or https://google.com"
                 className="form-input"
                 required
               />
+              <small className="form-hint">
+                You can enter URLs with or without https:// - we'll handle it automatically!
+              </small>
             </div>
 
             <div className="form-row">
