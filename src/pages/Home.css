@@ -424,3 +424,14 @@
     flex-direction: column;
   }
 }
+
+/* QR Action Button Styles */
+.action-btn.view-btn {
+  background: #8b5cf6;
+  color: white;
+}
+
+.action-btn.view-btn:hover {
+  background: #7c3aed;
+  transform: translateY(-1px);
+}

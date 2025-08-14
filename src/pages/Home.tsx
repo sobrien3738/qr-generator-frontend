@@ -3,7 +3,8 @@ import { useAuth } from '../context/AuthContext';
 import { qrAPI } from '../utils/api';
 import { downloadDataURL } from '../utils/download';
 import { QRCode } from '../types';
-import { Download, Link as LinkIcon, Settings, BarChart3, Copy, CheckCircle } from 'lucide-react';
+import { Download, Link as LinkIcon, Settings, BarChart3, Copy, CheckCircle, Eye } from 'lucide-react';
+import QRModal from '../components/QRModal';
 import './Home.css';
 
 const Home: React.FC = () => {
@@ -15,6 +16,7 @@ const Home: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [copied, setCopied] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   
   // Customization options
   const [size, setSize] = useState(256);
@@ -316,6 +318,11 @@ const Home: React.FC = () => {
               </div>
 
               <div className="qr-actions">
+                <button onClick={() => setShowModal(true)} className="action-btn view-btn">
+                  <Eye size={18} />
+                  View Large
+                </button>
+
                 <button onClick={downloadQR} className="action-btn download-btn">
                   <Download size={18} />
                   Download PNG
@@ -363,6 +370,16 @@ const Home: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {qrCode && (
+        <QRModal
+          qrCode={qrCode}
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+          onCopyUrl={copyToClipboard}
+          copied={copied}
+        />
+      )}
     </div>
   );
 };

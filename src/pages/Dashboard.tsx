@@ -4,6 +4,7 @@ import { qrAPI } from '../utils/api';
 import { downloadDataURL } from '../utils/download';
 import { QRCode } from '../types';
 import { QrCode, BarChart3, Download, Edit, Trash2, Eye, EyeOff } from 'lucide-react';
+import QRModal from '../components/QRModal';
 import './Dashboard.css';
 
 const Dashboard: React.FC = () => {
@@ -11,6 +12,9 @@ const Dashboard: React.FC = () => {
   const [qrCodes, setQrCodes] = useState<QRCode[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [selectedQR, setSelectedQR] = useState<QRCode | null>(null);
+  const [showModal, setShowModal] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -50,6 +54,21 @@ const Dashboard: React.FC = () => {
       setQrCodes(qrCodes.filter(qr => qr.id !== id));
     } catch (err) {
       setError('Failed to delete QR code');
+    }
+  };
+
+  const handleView = (qrCode: QRCode) => {
+    setSelectedQR(qrCode);
+    setShowModal(true);
+  };
+
+  const copyToClipboard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
     }
   };
 
@@ -168,12 +187,20 @@ const Dashboard: React.FC = () => {
                     </div>
 
                     <div className="qr-card-footer">
+                      <button
+                        onClick={() => handleView(qrCode)}
+                        className="view-btn-dashboard"
+                      >
+                        <Eye size={16} />
+                        View
+                      </button>
+
                       <a 
                         href={`/qr/${qrCode.id}`}
                         className="view-analytics-btn"
                       >
                         <BarChart3 size={16} />
-                        View Details
+                        Details
                       </a>
                       
                       <button
@@ -194,6 +221,19 @@ const Dashboard: React.FC = () => {
           </div>
         )}
       </div>
+
+      {selectedQR && (
+        <QRModal
+          qrCode={selectedQR}
+          isOpen={showModal}
+          onClose={() => {
+            setShowModal(false);
+            setSelectedQR(null);
+          }}
+          onCopyUrl={copyToClipboard}
+          copied={copied}
+        />
+      )}
     </div>
   );
 };
