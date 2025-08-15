@@ -33,6 +33,17 @@ const Home: React.FC = () => {
       return;
     }
 
+    // Check plan limits for authenticated users
+    if (user) {
+      const currentUsage = user.usage?.qrCodesCreated || 0;
+      const maxQRCodes = user.limits?.maxQRCodes || 10;
+      
+      if (currentUsage >= maxQRCodes) {
+        setError(`Plan limit reached! You can create up to ${maxQRCodes} QR codes on the ${user.plan} plan. Upgrade for more capacity.`);
+        return;
+      }
+    }
+
     setLoading(true);
     setError('');
 
@@ -50,7 +61,13 @@ const Home: React.FC = () => {
       const generatedQR = await qrAPI.generate(data);
       setQrCode(generatedQR);
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to generate QR code');
+      const errorMessage = err.response?.data?.error || 'Failed to generate QR code';
+      setError(errorMessage);
+      
+      // If it's a plan limit error, suggest upgrade
+      if (errorMessage.includes('Plan limit reached') || errorMessage.includes('limit')) {
+        setError(errorMessage + ' Upgrade to Pro for more QR codes and advanced features.');
+      }
     } finally {
       setLoading(false);
     }
@@ -97,6 +114,39 @@ const Home: React.FC = () => {
       </div>
 
       <div className="generator-container">
+        {/* Usage Indicator for Authenticated Users */}
+        {user && (
+          <div className="usage-indicator">
+            <div className="usage-header">
+              <span className="usage-title">QR Code Usage</span>
+              <span className="usage-stats">
+                {user.usage?.qrCodesCreated || 0} / {user.limits?.maxQRCodes || 10} used
+              </span>
+            </div>
+            <div className="usage-bar">
+              <div 
+                className="usage-bar-fill" 
+                style={{ 
+                  width: `${Math.min(((user.usage?.qrCodesCreated || 0) / (user.limits?.maxQRCodes || 10)) * 100, 100)}%` 
+                }}
+              ></div>
+            </div>
+            {(user.usage?.qrCodesCreated || 0) >= (user.limits?.maxQRCodes || 10) * 0.8 && (
+              <div className="usage-warning">
+                {user.plan === 'free' ? (
+                  <span>
+                    Almost at your limit! <a href="/pricing">Upgrade to Pro</a> for unlimited QR codes.
+                  </span>
+                ) : (
+                  <span>
+                    Running low on QR codes. <a href="/pricing">Upgrade to Business</a> for more capacity.
+                  </span>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+        
         <div className="generator-form">
           <form onSubmit={handleGenerate}>
             <div className="form-group">
@@ -258,10 +308,12 @@ const Home: React.FC = () => {
             <div className="form-actions">
               <button
                 type="submit"
-                disabled={loading}
-                className="generate-btn"
+                disabled={loading || (user && (user.usage?.qrCodesCreated || 0) >= (user.limits?.maxQRCodes || 10))}
+                className={`generate-btn ${user && (user.usage?.qrCodesCreated || 0) >= (user.limits?.maxQRCodes || 10) ? 'disabled' : ''}`}
               >
-                {loading ? 'Generating...' : 'Generate QR Code'}
+                {loading ? 'Generating...' : 
+                 user && (user.usage?.qrCodesCreated || 0) >= (user.limits?.maxQRCodes || 10) ? 
+                 'Plan Limit Reached' : 'Generate QR Code'}
               </button>
               
               {qrCode && (
