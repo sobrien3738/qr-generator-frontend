@@ -36,7 +36,7 @@ const Home: React.FC = () => {
     // Check plan limits for authenticated users
     if (user) {
       const currentUsage = user.usage?.qrCodesCreated || 0;
-      const maxQRCodes = user.limits?.maxQRCodes || 10;
+      const maxQRCodes = user.limits?.maxQRCodes || 5;
       
       if (currentUsage >= maxQRCodes) {
         setError(`Plan limit reached! You can create up to ${maxQRCodes} QR codes on the ${user.plan} plan. Upgrade for more capacity.`);
@@ -120,18 +120,18 @@ const Home: React.FC = () => {
             <div className="usage-header">
               <span className="usage-title">QR Code Usage</span>
               <span className="usage-stats">
-                {user.usage?.qrCodesCreated || 0} / {user.limits?.maxQRCodes || 10} used
+                {user.usage?.qrCodesCreated || 0} / {user.limits?.maxQRCodes || 5} used
               </span>
             </div>
             <div className="usage-bar">
               <div 
                 className="usage-bar-fill" 
                 style={{ 
-                  width: `${Math.min(((user.usage?.qrCodesCreated || 0) / (user.limits?.maxQRCodes || 10)) * 100, 100)}%` 
+                  width: `${Math.min(((user.usage?.qrCodesCreated || 0) / (user.limits?.maxQRCodes || 5)) * 100, 100)}%` 
                 }}
               ></div>
             </div>
-            {(user.usage?.qrCodesCreated || 0) >= (user.limits?.maxQRCodes || 10) * 0.8 && (
+            {(user.usage?.qrCodesCreated || 0) >= (user.limits?.maxQRCodes || 5) * 0.8 && (
               <div className="usage-warning">
                 {user.plan === 'free' ? (
                   <span>
@@ -308,11 +308,11 @@ const Home: React.FC = () => {
             <div className="form-actions">
               <button
                 type="submit"
-                disabled={loading || Boolean(user && (user.usage?.qrCodesCreated || 0) >= (user.limits?.maxQRCodes || 10))}
-                className={`generate-btn ${user && (user.usage?.qrCodesCreated || 0) >= (user.limits?.maxQRCodes || 10) ? 'disabled' : ''}`}
+                disabled={loading || Boolean(user && (user.usage?.qrCodesCreated || 0) >= (user.limits?.maxQRCodes || 5))}
+                className={`generate-btn ${user && (user.usage?.qrCodesCreated || 0) >= (user.limits?.maxQRCodes || 5) ? 'disabled' : ''}`}
               >
                 {loading ? 'Generating...' : 
-                 user && (user.usage?.qrCodesCreated || 0) >= (user.limits?.maxQRCodes || 10) ? 
+                 user && (user.usage?.qrCodesCreated || 0) >= (user.limits?.maxQRCodes || 5) ? 
                  'Plan Limit Reached' : 'Generate QR Code'}
               </button>
               

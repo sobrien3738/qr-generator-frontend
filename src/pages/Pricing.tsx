@@ -22,7 +22,8 @@ const Pricing: React.FC = () => {
   useEffect(() => {
     const fetchPlans = async () => {
       try {
-        const response = await fetch('/api/billing/plans');
+        const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+        const response = await fetch(`${API_BASE_URL}/api/billing/plans`);
         const data = await response.json();
         setPlans(data.plans);
         setPublishableKey(data.publishableKey);
@@ -47,7 +48,8 @@ const Pricing: React.FC = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('/api/billing/create-checkout-session', {
+      const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+      const response = await fetch(`${API_BASE_URL}/api/billing/create-checkout-session`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -77,7 +79,7 @@ const Pricing: React.FC = () => {
     {
       name: 'Free',
       price: 0,
-      maxQRCodes: 10,
+      maxQRCodes: 5,
       icon: <Star className="plan-icon" />,
       description: 'Perfect for personal use and getting started',
       period: 'forever',
@@ -296,7 +298,7 @@ const Pricing: React.FC = () => {
           
           <div className="faq-item">
             <h3>Do you offer a free plan?</h3>
-            <p>Yes! Our Free plan includes up to 10 QR codes with basic functionality. Perfect for personal use and testing.</p>
+            <p>Yes! Our Free plan includes up to 5 QR codes with basic functionality. Perfect for personal use and testing.</p>
           </div>
           
           <div className="faq-item">
