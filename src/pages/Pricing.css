@@ -421,6 +421,40 @@
   background: #2563eb;
 }
 
+.pricing-footer {
+  background: #f8fafc;
+  border-top: 1px solid #e5e7eb;
+  padding: 2rem 1rem 1rem;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  color: #6b7280;
+  text-decoration: none;
+  font-size: 0.875rem;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover {
+  color: #3b82f6;
+  text-decoration: underline;
+}
+
+.footer-copyright {
+  color: #9ca3af;
+  font-size: 0.8rem;
+  margin: 0;
+}
+
 @media (max-width: 1024px) {
   .pricing-grid {
     grid-template-columns: 1fr;

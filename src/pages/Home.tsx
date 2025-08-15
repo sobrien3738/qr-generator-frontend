@@ -104,12 +104,36 @@ const Home: React.FC = () => {
       <div className="hero-section">
         <div className="hero-content">
           <h1 className="hero-title">
-            Generate QR Codes in Seconds
+            Professional QR Codes with Analytics
           </h1>
           <p className="hero-description">
-            Create custom QR codes with analytics tracking. Perfect for marketing campaigns, 
-            business cards, and sharing links with your audience.
+            Create, customize, and track QR codes that work. Get detailed analytics, custom branding, 
+            and insights to grow your business. Trusted by 10,000+ professionals worldwide.
           </p>
+          <div className="hero-features">
+            <div className="hero-feature">
+              <BarChart3 size={20} />
+              <span>Advanced Analytics</span>
+            </div>
+            <div className="hero-feature">
+              <Settings size={20} />
+              <span>Custom Branding</span>
+            </div>
+            <div className="hero-feature">
+              <Download size={20} />
+              <span>Instant Downloads</span>
+            </div>
+          </div>
+          {!user && (
+            <div className="hero-cta">
+              <a href="/register" className="hero-button hero-button-primary">
+                Start Free - 5 QR Codes
+              </a>
+              <a href="/pricing" className="hero-button hero-button-secondary">
+                View Pricing
+              </a>
+            </div>
+          )}
         </div>
       </div>
 

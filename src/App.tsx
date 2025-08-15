@@ -11,6 +11,8 @@ import Analytics from './pages/Analytics';
 import QRCodeDetail from './pages/QRCodeDetail';
 import CheckoutSuccess from './pages/CheckoutSuccess';
 import CheckoutCancel from './pages/CheckoutCancel';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfService from './pages/TermsOfService';
 import './App.css';
 
 function App() {
@@ -30,6 +32,8 @@ function App() {
               <Route path="/qr/:id" element={<QRCodeDetail />} />
               <Route path="/billing/success" element={<CheckoutSuccess />} />
               <Route path="/billing/cancel" element={<CheckoutCancel />} />
+              <Route path="/privacy" element={<PrivacyPolicy />} />
+              <Route path="/terms" element={<TermsOfService />} />
             </Routes>
           </main>
         </div>

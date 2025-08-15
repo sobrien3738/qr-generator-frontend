@@ -300,6 +300,17 @@ const Pricing: React.FC = () => {
           </Link>
         )}
       </div>
+
+      <div className="pricing-footer">
+        <div className="footer-links">
+          <Link to="/privacy">Privacy Policy</Link>
+          <Link to="/terms">Terms of Service</Link>
+          <a href="mailto:support@qrgen.pro">Support</a>
+        </div>
+        <p className="footer-copyright">
+          © 2024 QRGen Pro. All rights reserved.
+        </p>
+      </div>
     </div>
   );
 };
