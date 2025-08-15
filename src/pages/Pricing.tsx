@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Check, Star, Zap, Crown, Loader } from 'lucide-react';
+import { Check, Star, Zap, Crown, Loader, X, BarChart3, Palette, Download, Headphones, Smartphone, Users, Globe, Shield, Rocket } from 'lucide-react';
 import './Pricing.css';
 
 interface Plan {
@@ -79,17 +79,20 @@ const Pricing: React.FC = () => {
       icon: <Star className="plan-icon" />,
       description: 'Perfect for personal use and getting started',
       period: 'forever',
+      subtitle: 'Great for testing and personal projects',
       features: [
-        'Basic QR code generation',
-        'Limited customization',
-        'PNG downloads',
-        'Standard support'
+        { icon: <Check size={16} />, text: 'Quick QR code generation', included: true },
+        { icon: <BarChart3 size={16} />, text: 'Basic scan tracking (counts only)', included: true },
+        { icon: <Download size={16} />, text: 'PNG downloads for sharing', included: true },
+        { icon: <Headphones size={16} />, text: 'Community support', included: true }
       ],
       limitations: [
-        'No analytics tracking',
-        'No data export',
-        'Basic features only'
+        { icon: <X size={16} />, text: 'No detailed analytics dashboard' },
+        { icon: <X size={16} />, text: 'No custom colors or branding' },
+        { icon: <X size={16} />, text: 'No data export (CSV/PDF)' },
+        { icon: <X size={16} />, text: 'No bulk operations' }
       ],
+      highlight: null,
       buttonText: user?.plan === 'free' ? 'Current Plan' : 'Get Started Free',
       buttonClass: 'plan-button plan-button-free',
       popular: false,
@@ -100,13 +103,18 @@ const Pricing: React.FC = () => {
       icon: <Zap className="plan-icon" />,
       description: 'Best for small businesses and marketers',
       period: 'per month',
+      subtitle: 'Everything you need to grow your business',
       features: [
-        'Analytics & tracking',
-        'Custom colors',
-        'Priority support',
-        'Advanced customization',
-        'Data export capabilities'
+        { icon: <Check size={16} />, text: 'Everything in Free, plus:', included: true, highlight: true },
+        { icon: <BarChart3 size={16} />, text: 'Advanced analytics (location, device, time)', included: true },
+        { icon: <Palette size={16} />, text: 'Custom colors & branding options', included: true },
+        { icon: <Download size={16} />, text: 'Data export (CSV/PDF reports)', included: true },
+        { icon: <Headphones size={16} />, text: 'Priority support (4hr response)', included: true },
+        { icon: <Smartphone size={16} />, text: 'Mobile-optimized dashboard', included: true },
+        { icon: <Rocket size={16} />, text: 'Bulk QR generation', included: true },
+        { icon: <BarChart3 size={16} />, text: 'Performance insights & recommendations', included: true }
       ],
+      highlight: 'Most Popular - Perfect for growing businesses',
       buttonText: user?.plan === 'pro' ? 'Current Plan' : 'Upgrade to Pro',
       buttonClass: 'plan-button plan-button-pro',
       popular: true,
@@ -117,14 +125,18 @@ const Pricing: React.FC = () => {
       icon: <Crown className="plan-icon" />,
       description: 'For large teams and organizations',
       period: 'per month',
+      subtitle: 'Scale with enterprise-grade features',
       features: [
-        'Unlimited QR codes',
-        'Advanced analytics',
-        'API access',
-        'White-label options',
-        'Dedicated support',
-        'Priority features'
+        { icon: <Check size={16} />, text: 'Everything in Pro, plus:', included: true, highlight: true },
+        { icon: <Globe size={16} />, text: 'API access for integrations', included: true },
+        { icon: <Users size={16} />, text: 'Team management & user permissions', included: true },
+        { icon: <Palette size={16} />, text: 'White-label options (remove QRGen branding)', included: true },
+        { icon: <Headphones size={16} />, text: 'Dedicated account manager', included: true },
+        { icon: <Shield size={16} />, text: 'Advanced security (SSO, enterprise features)', included: true },
+        { icon: <BarChart3 size={16} />, text: 'Custom dashboards & advanced reporting', included: true },
+        { icon: <Rocket size={16} />, text: 'Priority access to new features', included: true }
       ],
+      highlight: 'Enterprise Ready - Built for scale',
       buttonText: user?.plan === 'business' ? 'Current Plan' : 'Upgrade to Business',
       buttonClass: 'plan-button plan-button-business',
       popular: false,
@@ -135,8 +147,26 @@ const Pricing: React.FC = () => {
   return (
     <div className="pricing">
       <div className="pricing-header">
-        <h1>QRGen Pro Pricing</h1>
-        <p>Choose the plan that fits your needs. Upgrade or downgrade at any time with secure Stripe billing.</p>
+        <h1>Simple, Transparent Pricing</h1>
+        <p>Choose the plan that fits your needs. Start free, upgrade as you grow.</p>
+        <div className="value-proposition">
+          <div className="value-item">
+            <BarChart3 className="value-icon" />
+            <span>Track every scan with detailed analytics</span>
+          </div>
+          <div className="value-item">
+            <Palette className="value-icon" />
+            <span>Customize colors to match your brand</span>
+          </div>
+          <div className="value-item">
+            <Shield className="value-icon" />
+            <span>Enterprise-grade security & reliability</span>
+          </div>
+          <div className="value-item">
+            <Headphones className="value-icon" />
+            <span>World-class support when you need it</span>
+          </div>
+        </div>
       </div>
 
       <div className="pricing-grid">
@@ -165,31 +195,41 @@ const Pricing: React.FC = () => {
                   <span className="period">/{planConfig.period}</span>
                 </div>
                 <p className="plan-description">{planConfig.description}</p>
+                <p className="plan-subtitle">{planConfig.subtitle}</p>
                 {backendPlan && (
-                  <p className="plan-qr-limit">
-                    Up to {backendPlan.maxQRCodes} QR codes
-                  </p>
+                  <div className="plan-qr-limit">
+                    <strong>Up to {backendPlan.maxQRCodes === 1000 ? '1,000' : backendPlan.maxQRCodes} QR codes</strong>
+                  </div>
+                )}
+                {planConfig.highlight && (
+                  <div className="plan-highlight">
+                    {planConfig.highlight}
+                  </div>
                 )}
               </div>
 
               <div className="plan-features">
-                <h4>What's included:</h4>
-                <ul className="features-list">
-                  {(backendPlan?.features || planConfig.features).map((feature, featureIndex) => (
-                    <li key={featureIndex} className="feature-item">
-                      <Check className="feature-check" />
-                      {feature}
+                <ul className="enhanced-features-list">
+                  {planConfig.features.map((feature, featureIndex) => (
+                    <li key={featureIndex} className={`enhanced-feature-item ${(feature as any).highlight ? 'feature-highlight' : ''}`}>
+                      <span className="feature-icon">
+                        {(feature as any).icon}
+                      </span>
+                      <span className="feature-text">{(feature as any).text}</span>
                     </li>
                   ))}
                 </ul>
 
                 {planConfig.limitations && (
                   <div className="plan-limitations">
-                    <h4>Limitations:</h4>
+                    <h4>Not included:</h4>
                     <ul className="limitations-list">
                       {planConfig.limitations.map((limitation, limitIndex) => (
                         <li key={limitIndex} className="limitation-item">
-                          {limitation}
+                          <span className="limitation-icon">
+                            {(limitation as any).icon}
+                          </span>
+                          <span className="limitation-text">{(limitation as any).text}</span>
                         </li>
                       ))}
                     </ul>
