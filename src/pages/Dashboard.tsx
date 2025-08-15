@@ -298,27 +298,27 @@ const Dashboard: React.FC = () => {
                         Stats
                       </a>
                       
-                      <div className="download-button-group-compact">
-                        <button
-                          onClick={() => handleDownload(qrCode, getSelectedFormat(qrCode.id))}
-                          className="qr-footer-btn download-btn main"
-                          title={`Download as ${getSelectedFormat(qrCode.id).toUpperCase()}`}
-                        >
-                          <Download size={14} />
-                          {getSelectedFormat(qrCode.id).toUpperCase()}
-                        </button>
-                        <div className="format-selector-mini">
+                      <div className="download-section">
+                        <div className="format-selector">
                           {(['png', 'svg', 'pdf'] as FileFormat[]).map(format => (
                             <button
                               key={format}
                               onClick={() => setSelectedFormat(qrCode.id, format)}
-                              className={`format-option-mini ${getSelectedFormat(qrCode.id) === format ? 'active' : ''}`}
-                              title={`Switch to ${format.toUpperCase()}`}
+                              className={`format-option ${getSelectedFormat(qrCode.id) === format ? 'active' : ''}`}
+                              title={`Select ${format.toUpperCase()} format`}
                             >
-                              {format}
+                              {format.toUpperCase()}
                             </button>
                           ))}
                         </div>
+                        <button
+                          onClick={() => handleDownload(qrCode, getSelectedFormat(qrCode.id))}
+                          className="qr-footer-btn download-btn"
+                          title={`Download as ${getSelectedFormat(qrCode.id).toUpperCase()}`}
+                        >
+                          <Download size={14} />
+                          Download
+                        </button>
                       </div>
                     </div>
                   </div>
