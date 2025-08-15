@@ -282,21 +282,23 @@ const Dashboard: React.FC = () => {
                     </div>
 
                     <div className="qr-card-footer">
-                      <button
-                        onClick={() => handleView(qrCode)}
-                        className="qr-footer-btn view-btn"
-                      >
-                        <Eye size={14} />
-                        View
-                      </button>
+                      <div className="qr-footer-buttons-left">
+                        <button
+                          onClick={() => handleView(qrCode)}
+                          className="qr-footer-btn view-btn"
+                        >
+                          <Eye size={14} />
+                          View
+                        </button>
 
-                      <a 
-                        href={`/qr/${qrCode.id}`}
-                        className="qr-footer-btn analytics-btn"
-                      >
-                        <BarChart3 size={14} />
-                        Stats
-                      </a>
+                        <a 
+                          href={`/qr/${qrCode.id}`}
+                          className="qr-footer-btn analytics-btn"
+                        >
+                          <BarChart3 size={14} />
+                          Stats
+                        </a>
+                      </div>
                       
                       <div className="download-section">
                         <div className="format-selector">
