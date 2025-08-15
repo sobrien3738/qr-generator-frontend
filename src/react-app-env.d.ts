@@ -6,5 +6,9 @@ declare global {
     trackSignup?: () => void;
     trackUpgrade?: (planName: string, value: number) => void;
     trackQRCreation?: () => void;
+    gtag?: (...args: any[]) => void;
+    dataLayer?: any[];
   }
 }
+
+export {};
