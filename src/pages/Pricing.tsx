@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Check, Star, Zap, Crown, Loader } from 'lucide-react';
+import { Check, Star, Zap, Crown, Loader, BarChart3, Palette, Shield, Headphones } from 'lucide-react';
 import './Pricing.css';
 
 interface Plan {
