@@ -9,6 +9,8 @@ import Register from './pages/Register';
 import Pricing from './pages/Pricing';
 import Analytics from './pages/Analytics';
 import QRCodeDetail from './pages/QRCodeDetail';
+import CheckoutSuccess from './pages/CheckoutSuccess';
+import CheckoutCancel from './pages/CheckoutCancel';
 import './App.css';
 
 function App() {
@@ -26,6 +28,8 @@ function App() {
               <Route path="/pricing" element={<Pricing />} />
               <Route path="/analytics" element={<Analytics />} />
               <Route path="/qr/:id" element={<QRCodeDetail />} />
+              <Route path="/billing/success" element={<CheckoutSuccess />} />
+              <Route path="/billing/cancel" element={<CheckoutCancel />} />
             </Routes>
           </main>
         </div>

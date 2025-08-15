@@ -308,7 +308,7 @@ const Home: React.FC = () => {
             <div className="form-actions">
               <button
                 type="submit"
-                disabled={loading || (user && (user.usage?.qrCodesCreated || 0) >= (user.limits?.maxQRCodes || 10))}
+                disabled={loading || Boolean(user && (user.usage?.qrCodesCreated || 0) >= (user.limits?.maxQRCodes || 10))}
                 className={`generate-btn ${user && (user.usage?.qrCodesCreated || 0) >= (user.limits?.maxQRCodes || 10) ? 'disabled' : ''}`}
               >
                 {loading ? 'Generating...' : 
