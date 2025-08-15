@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Check, Star, Zap, Crown, Loader, X, BarChart3, Palette, Download, Headphones, Smartphone, Users, Globe, Shield, Rocket } from 'lucide-react';
+import { Check, Star, Zap, Crown, Loader } from 'lucide-react';
 import './Pricing.css';
 
 interface Plan {
@@ -85,16 +85,10 @@ const Pricing: React.FC = () => {
       period: 'forever',
       subtitle: 'Great for testing and personal projects',
       features: [
-        { icon: <Check size={16} />, text: 'Quick QR code generation', included: true },
-        { icon: <BarChart3 size={16} />, text: 'Basic scan tracking (counts only)', included: true },
-        { icon: <Download size={16} />, text: 'PNG downloads for sharing', included: true },
-        { icon: <Headphones size={16} />, text: 'Community support', included: true }
-      ],
-      limitations: [
-        { icon: <X size={16} />, text: 'No detailed analytics dashboard' },
-        { icon: <X size={16} />, text: 'No custom colors or branding' },
-        { icon: <X size={16} />, text: 'No data export (CSV/PDF)' },
-        { icon: <X size={16} />, text: 'No bulk operations' }
+        { icon: <Check size={12} />, text: 'Quick QR generation', included: true },
+        { icon: <Check size={12} />, text: 'Basic scan tracking', included: true },
+        { icon: <Check size={12} />, text: 'PNG downloads', included: true },
+        { icon: <Check size={12} />, text: 'Community support', included: true }
       ],
       highlight: null,
       buttonText: user?.plan === 'free' ? 'Current Plan' : 'Get Started Free',
@@ -111,14 +105,13 @@ const Pricing: React.FC = () => {
       period: 'per month',
       subtitle: 'Everything you need to grow your business',
       features: [
-        { icon: <Check size={16} />, text: 'Everything in Free, plus:', included: true, highlight: true },
-        { icon: <BarChart3 size={16} />, text: 'Advanced analytics (location, device, time)', included: true },
-        { icon: <Palette size={16} />, text: 'Custom colors & branding options', included: true },
-        { icon: <Download size={16} />, text: 'Data export (CSV/PDF reports)', included: true },
-        { icon: <Headphones size={16} />, text: 'Priority support (4hr response)', included: true },
-        { icon: <Smartphone size={16} />, text: 'Mobile-optimized dashboard', included: true },
-        { icon: <Rocket size={16} />, text: 'Bulk QR generation', included: true },
-        { icon: <BarChart3 size={16} />, text: 'Performance insights & recommendations', included: true }
+        { icon: <Check size={12} />, text: 'Everything in Free, plus:', included: true, highlight: true },
+        { icon: <Check size={12} />, text: 'Advanced analytics & insights', included: true },
+        { icon: <Check size={12} />, text: 'Custom colors & branding', included: true },
+        { icon: <Check size={12} />, text: 'Data export (CSV/PDF)', included: true },
+        { icon: <Check size={12} />, text: 'Priority support (4hr)', included: true },
+        { icon: <Check size={12} />, text: 'Mobile dashboard', included: true },
+        { icon: <Check size={12} />, text: 'Bulk QR generation', included: true }
       ],
       highlight: 'Most Popular - Perfect for growing businesses',
       buttonText: user?.plan === 'pro' ? 'Current Plan' : 'Upgrade to Pro',
@@ -135,14 +128,14 @@ const Pricing: React.FC = () => {
       period: 'per month',
       subtitle: 'Scale with enterprise-grade features',
       features: [
-        { icon: <Check size={16} />, text: 'Everything in Pro, plus:', included: true, highlight: true },
-        { icon: <Globe size={16} />, text: 'API access for integrations', included: true },
-        { icon: <Users size={16} />, text: 'Team management & user permissions', included: true },
-        { icon: <Palette size={16} />, text: 'White-label options (remove QRGen branding)', included: true },
-        { icon: <Headphones size={16} />, text: 'Dedicated account manager', included: true },
-        { icon: <Shield size={16} />, text: 'Advanced security (SSO, enterprise features)', included: true },
-        { icon: <BarChart3 size={16} />, text: 'Custom dashboards & advanced reporting', included: true },
-        { icon: <Rocket size={16} />, text: 'Priority access to new features', included: true }
+        { icon: <Check size={12} />, text: 'Everything in Pro, plus:', included: true, highlight: true },
+        { icon: <Check size={12} />, text: 'API access & integrations', included: true },
+        { icon: <Check size={12} />, text: 'Team management', included: true },
+        { icon: <Check size={12} />, text: 'White-label options', included: true },
+        { icon: <Check size={12} />, text: 'Dedicated account manager', included: true },
+        { icon: <Check size={12} />, text: 'Advanced security (SSO)', included: true },
+        { icon: <Check size={12} />, text: 'Custom dashboards', included: true },
+        { icon: <Check size={12} />, text: 'Priority feature access', included: true }
       ],
       highlight: 'Enterprise Ready - Built for scale',
       buttonText: user?.plan === 'business' ? 'Current Plan' : 'Upgrade to Business',
@@ -225,21 +218,6 @@ const Pricing: React.FC = () => {
                   ))}
                 </ul>
 
-                {planConfig.limitations && (
-                  <div className="plan-limitations">
-                    <h4>Not included:</h4>
-                    <ul className="limitations-list">
-                      {planConfig.limitations.map((limitation, limitIndex) => (
-                        <li key={limitIndex} className="limitation-item">
-                          <span className="limitation-icon">
-                            {(limitation as any).icon}
-                          </span>
-                          <span className="limitation-text">{(limitation as any).text}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
               </div>
 
               <div className="plan-action">
