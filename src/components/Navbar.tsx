@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { QrCode, User, LogOut, BarChart3 } from 'lucide-react';
+import { QrCode, LogOut, BarChart3, Crown } from 'lucide-react';
 import './Navbar.css';
 
 const Navbar: React.FC = () => {
@@ -18,7 +18,7 @@ const Navbar: React.FC = () => {
       <div className="navbar-container">
         <Link to="/" className="navbar-brand">
           <QrCode className="brand-icon" />
-          <span>QR Generator</span>
+          <span>QRGen Pro</span>
         </Link>
 
         <div className="navbar-menu">
@@ -33,11 +33,30 @@ const Navbar: React.FC = () => {
                 Dashboard
               </Link>
               
+              <Link to="/pricing" className="navbar-link">
+                Pricing
+              </Link>
+              
+              {user.plan === 'free' && (
+                <Link to="/pricing" className="navbar-upgrade-btn">
+                  <Crown size={18} />
+                  Upgrade
+                </Link>
+              )}
+              
+              {user.plan === 'pro' && (
+                <Link to="/pricing" className="navbar-upgrade-btn-subtle">
+                  <Crown size={16} />
+                  Business
+                </Link>
+              )}
+              
               <div className="navbar-user">
                 <span className="user-name">{user.name}</span>
-                <span className={`user-plan plan-${user.plan}`}>
+                <Link to="/pricing" className={`user-plan plan-${user.plan}`} title="View plans and upgrade">
                   {user.plan.toUpperCase()}
-                </span>
+                  {user.usage && ` ${user.usage.qrCodesCreated}/${user.limits.maxQRCodes}`}
+                </Link>
                 <button onClick={handleLogout} className="logout-btn">
                   <LogOut size={18} />
                 </button>

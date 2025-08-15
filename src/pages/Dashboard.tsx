@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { qrAPI } from '../utils/api';
 import { downloadDataURL } from '../utils/download';
 import { QRCode } from '../types';
-import { QrCode, BarChart3, Download, Edit, Trash2, Eye, EyeOff } from 'lucide-react';
+import { QrCode, BarChart3, Download, Edit, Trash2, Eye, EyeOff, Crown, TrendingUp, AlertCircle } from 'lucide-react';
 import QRModal from '../components/QRModal';
 import './Dashboard.css';
 
@@ -82,6 +82,68 @@ const Dashboard: React.FC = () => {
     );
   }
 
+  const qrCodesUsed = user.usage?.qrCodesCreated || 0;
+  const qrCodesLimit = user.limits.maxQRCodes;
+  const usagePercentage = (qrCodesUsed / qrCodesLimit) * 100;
+  const isNearLimit = usagePercentage >= 80;
+
+  const renderUpgradeBanner = () => {
+    if (user.plan === 'business') return null;
+
+    if (user.plan === 'free') {
+      return (
+        <div className="upgrade-banner upgrade-banner-free">
+          <div className="upgrade-content">
+            <div className="upgrade-icon">
+              <Crown size={24} />
+            </div>
+            <div className="upgrade-text">
+              <h3>Unlock More with QRGen Pro</h3>
+              <p>Get 100 QR codes, analytics, custom colors, and priority support for just $9/month</p>
+            </div>
+            <a href="/pricing" className="upgrade-button">
+              Upgrade to Pro
+            </a>
+          </div>
+        </div>
+      );
+    }
+
+    if (user.plan === 'pro') {
+      return (
+        <div className="upgrade-banner upgrade-banner-pro">
+          <div className="upgrade-content">
+            <div className="upgrade-icon">
+              <TrendingUp size={24} />
+            </div>
+            <div className="upgrade-text">
+              <h3>Scale to Business Level</h3>
+              <p>Get 1,000 QR codes, advanced analytics, API access, and white-label options</p>
+            </div>
+            <a href="/pricing" className="upgrade-button-secondary">
+              Upgrade to Business
+            </a>
+          </div>
+        </div>
+      );
+    }
+
+    return null;
+  };
+
+  const renderUsageWarning = () => {
+    if (isNearLimit && user.plan !== 'business') {
+      return (
+        <div className="usage-warning">
+          <AlertCircle size={20} />
+          <span>You're using {qrCodesUsed} of {qrCodesLimit} QR codes ({Math.round(usagePercentage)}%). </span>
+          <a href="/pricing">Upgrade now</a> to avoid limits.
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
     <div className="dashboard">
       <div className="dashboard-header">
@@ -89,12 +151,21 @@ const Dashboard: React.FC = () => {
         <p>Manage your QR codes and track their performance</p>
       </div>
 
+      {renderUpgradeBanner()}
+      {renderUsageWarning()}
+
       <div className="dashboard-stats">
         <div className="stat-card">
           <QrCode className="stat-icon" />
           <div className="stat-info">
-            <h3>{user.usage?.qrCodesCreated || 0}</h3>
-            <p>QR Codes Created</p>
+            <h3>{qrCodesUsed} / {qrCodesLimit}</h3>
+            <p>QR Codes Used</p>
+            <div className="progress-bar">
+              <div 
+                className={`progress-fill ${isNearLimit ? 'progress-warning' : ''}`}
+                style={{ width: `${Math.min(usagePercentage, 100)}%` }}
+              ></div>
+            </div>
           </div>
         </div>
 
