@@ -2,7 +2,7 @@ export interface User {
   id: string;
   email: string;
   name: string;
-  plan: 'free' | 'pro' | 'enterprise';
+  plan: 'free' | 'pro' | 'business' | 'enterprise';
   limits: {
     maxQRCodes: number;
     maxScansPerMonth: number;
