@@ -156,6 +156,24 @@
   box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
 }
 
+.upgrade-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.2;
+}
+
+.upgrade-main {
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.upgrade-price {
+  font-weight: 500;
+  font-size: 0.75rem;
+  opacity: 0.9;
+}
+
 .navbar-upgrade-btn:hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 8px rgba(59, 130, 246, 0.4);
@@ -175,6 +193,20 @@
   display: flex;
   align-items: center;
   gap: 0.25rem;
+}
+
+.navbar-upgrade-btn-subtle .upgrade-text {
+  align-items: flex-start;
+}
+
+.navbar-upgrade-btn-subtle .upgrade-main {
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.navbar-upgrade-btn-subtle .upgrade-price {
+  font-size: 0.7rem;
+  opacity: 0.8;
 }
 
 .navbar-upgrade-btn-subtle:hover {
@@ -208,5 +240,44 @@
   
   .navbar-link {
     font-size: 0.9rem;
+  }
+  
+  /* Mobile upgrade text adjustments */
+  .upgrade-main {
+    font-size: 0.8rem;
+  }
+  
+  .upgrade-price {
+    font-size: 0.7rem;
+  }
+  
+  .navbar-upgrade-btn-subtle .upgrade-main {
+    font-size: 0.75rem;
+  }
+  
+  .navbar-upgrade-btn-subtle .upgrade-price {
+    font-size: 0.65rem;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Show abbreviated pricing on very small screens */
+  .upgrade-text {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  
+  .upgrade-main {
+    font-size: 0.75rem;
+  }
+  
+  .upgrade-price {
+    font-size: 0.7rem;
+  }
+  
+  .navbar-upgrade-btn-subtle .upgrade-text {
+    flex-direction: row;
+    gap: 0.2rem;
   }
 }

@@ -47,14 +47,20 @@ const Navbar: React.FC = () => {
               {user.plan === 'free' && (
                 <Link to="/pricing" className="navbar-upgrade-btn">
                   <Crown size={18} />
-                  Upgrade
+                  <span className="upgrade-text">
+                    <span className="upgrade-main">Upgrade to Pro</span>
+                    <span className="upgrade-price">$9/mo</span>
+                  </span>
                 </Link>
               )}
               
               {user.plan === 'pro' && (
                 <Link to="/pricing" className="navbar-upgrade-btn-subtle">
                   <Crown size={16} />
-                  Business
+                  <span className="upgrade-text">
+                    <span className="upgrade-main">Business</span>
+                    <span className="upgrade-price">$49/mo</span>
+                  </span>
                 </Link>
               )}
               
