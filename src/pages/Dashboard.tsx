@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { qrAPI } from '../utils/api';
 import { downloadQRCode, downloadQRCodeFromDataURL, FileFormat } from '../utils/download';
 import { QRCode } from '../types';
-import { QrCode, BarChart3, Download, Edit, Trash2, Eye, EyeOff, Crown, TrendingUp, AlertCircle } from 'lucide-react';
+import { QrCode, BarChart3, Download, Trash2, Eye, EyeOff, Crown, TrendingUp, AlertCircle } from 'lucide-react';
 import QRModal from '../components/QRModal';
 import FormatDropdown from '../components/FormatDropdown';
 import './Dashboard.css';
@@ -298,13 +298,27 @@ const Dashboard: React.FC = () => {
                         Stats
                       </a>
                       
-                      <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <FormatDropdown
-                          selectedFormat={getSelectedFormat(qrCode.id)}
-                          onFormatChange={(format) => setSelectedFormat(qrCode.id, format)}
-                          onDownload={(format) => handleDownload(qrCode, format)}
-                          className="compact"
-                        />
+                      <div className="download-button-group-compact">
+                        <button
+                          onClick={() => handleDownload(qrCode, getSelectedFormat(qrCode.id))}
+                          className="qr-footer-btn download-btn main"
+                          title={`Download as ${getSelectedFormat(qrCode.id).toUpperCase()}`}
+                        >
+                          <Download size={14} />
+                          {getSelectedFormat(qrCode.id).toUpperCase()}
+                        </button>
+                        <div className="format-selector-mini">
+                          {(['png', 'svg', 'pdf'] as FileFormat[]).map(format => (
+                            <button
+                              key={format}
+                              onClick={() => setSelectedFormat(qrCode.id, format)}
+                              className={`format-option-mini ${getSelectedFormat(qrCode.id) === format ? 'active' : ''}`}
+                              title={`Switch to ${format.toUpperCase()}`}
+                            >
+                              {format}
+                            </button>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>
