@@ -33,6 +33,13 @@ const Navbar: React.FC = () => {
                 Dashboard
               </Link>
               
+              {(user.plan === 'pro' || user.plan === 'business') && (
+                <Link to="/analytics" className="navbar-link">
+                  <BarChart3 size={18} />
+                  Analytics
+                </Link>
+              )}
+              
               <Link to="/pricing" className="navbar-link">
                 Pricing
               </Link>

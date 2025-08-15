@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Pricing from './pages/Pricing';
+import Analytics from './pages/Analytics';
 import QRCodeDetail from './pages/QRCodeDetail';
 import './App.css';
 
@@ -23,6 +24,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/pricing" element={<Pricing />} />
+              <Route path="/analytics" element={<Analytics />} />
               <Route path="/qr/:id" element={<QRCodeDetail />} />
             </Routes>
           </main>
