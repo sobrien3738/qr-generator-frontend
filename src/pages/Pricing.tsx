@@ -76,6 +76,8 @@ const Pricing: React.FC = () => {
   const planConfigs = [
     {
       name: 'Free',
+      price: 0,
+      maxQRCodes: 10,
       icon: <Star className="plan-icon" />,
       description: 'Perfect for personal use and getting started',
       period: 'forever',
@@ -100,6 +102,8 @@ const Pricing: React.FC = () => {
     },
     {
       name: 'Pro',
+      price: 9,
+      maxQRCodes: 100,
       icon: <Zap className="plan-icon" />,
       description: 'Best for small businesses and marketers',
       period: 'per month',
@@ -122,6 +126,8 @@ const Pricing: React.FC = () => {
     },
     {
       name: 'Business',
+      price: 49,
+      maxQRCodes: 1000,
       icon: <Crown className="plan-icon" />,
       description: 'For large teams and organizations',
       period: 'per month',
@@ -171,7 +177,6 @@ const Pricing: React.FC = () => {
 
       <div className="pricing-grid">
         {planConfigs.map((planConfig) => {
-          const backendPlan = plans.find(p => p.name.toLowerCase() === planConfig.name.toLowerCase());
           const isCurrentPlan = user?.plan === planConfig.planType;
           
           return (
@@ -190,17 +195,15 @@ const Pricing: React.FC = () => {
                 <h3 className="plan-name">{planConfig.name}</h3>
                 <div className="plan-price">
                   <span className="price">
-                    ${backendPlan ? backendPlan.price : (planConfig.name === 'Free' ? '0' : '...')}
+                    ${(planConfig as any).price}
                   </span>
                   <span className="period">/{planConfig.period}</span>
                 </div>
                 <p className="plan-description">{planConfig.description}</p>
                 <p className="plan-subtitle">{planConfig.subtitle}</p>
-                {backendPlan && (
-                  <div className="plan-qr-limit">
-                    <strong>Up to {backendPlan.maxQRCodes === 1000 ? '1,000' : backendPlan.maxQRCodes} QR codes</strong>
-                  </div>
-                )}
+                <div className="plan-qr-limit">
+                  <strong>Up to {(planConfig as any).maxQRCodes === 1000 ? '1,000' : (planConfig as any).maxQRCodes} QR codes</strong>
+                </div>
                 {planConfig.highlight && (
                   <div className="plan-highlight">
                     {planConfig.highlight}
