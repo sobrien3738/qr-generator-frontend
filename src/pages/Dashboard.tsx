@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { qrAPI } from '../utils/api';
-import { downloadDataURL } from '../utils/download';
+import { downloadQRCode, downloadQRCodeFromDataURL, FileFormat } from '../utils/download';
 import { QRCode } from '../types';
 import { QrCode, BarChart3, Download, Edit, Trash2, Eye, EyeOff, Crown, TrendingUp, AlertCircle } from 'lucide-react';
 import QRModal from '../components/QRModal';
+import FormatDropdown from '../components/FormatDropdown';
 import './Dashboard.css';
 
 const Dashboard: React.FC = () => {
@@ -15,6 +16,7 @@ const Dashboard: React.FC = () => {
   const [selectedQR, setSelectedQR] = useState<QRCode | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [downloadFormats, setDownloadFormats] = useState<{ [key: string]: FileFormat }>({});
 
   useEffect(() => {
     if (user) {
@@ -70,6 +72,28 @@ const Dashboard: React.FC = () => {
     } catch (err) {
       console.error('Failed to copy text: ', err);
     }
+  };
+
+  const handleDownload = async (qrCode: QRCode, format: FileFormat) => {
+    try {
+      if (format === 'png') {
+        // Use existing data URL for PNG
+        downloadQRCodeFromDataURL(qrCode.qrCodeData, qrCode.shortId || qrCode.id, format);
+      } else {
+        // For SVG and PDF, use the API endpoint
+        await downloadQRCode(qrCode.id, format);
+      }
+    } catch (error) {
+      console.error('Download failed:', error);
+    }
+  };
+
+  const getSelectedFormat = (qrCodeId: string): FileFormat => {
+    return downloadFormats[qrCodeId] || 'png';
+  };
+
+  const setSelectedFormat = (qrCodeId: string, format: FileFormat) => {
+    setDownloadFormats(prev => ({ ...prev, [qrCodeId]: format }));
   };
 
   if (!user) {
@@ -274,16 +298,14 @@ const Dashboard: React.FC = () => {
                         Stats
                       </a>
                       
-                      <button
-                        onClick={() => {
-                          const filename = `qr-${qrCode.shortId || qrCode.id}.png`;
-                          downloadDataURL(qrCode.qrCodeData, filename);
-                        }}
-                        className="qr-footer-btn download-btn"
-                      >
-                        <Download size={14} />
-                        Save
-                      </button>
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <FormatDropdown
+                          selectedFormat={getSelectedFormat(qrCode.id)}
+                          onFormatChange={(format) => setSelectedFormat(qrCode.id, format)}
+                          onDownload={(format) => handleDownload(qrCode, format)}
+                          className="compact"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>

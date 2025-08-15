@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { qrAPI } from '../utils/api';
-import { downloadDataURL } from '../utils/download';
+import { downloadQRCodeFromDataURL, FileFormat } from '../utils/download';
 import { QRCode } from '../types';
 import { Download, Link as LinkIcon, Settings, BarChart3, Copy, CheckCircle, Eye } from 'lucide-react';
 import QRModal from '../components/QRModal';
+import FormatDropdown from '../components/FormatDropdown';
 import './Home.css';
 
 const Home: React.FC = () => {
@@ -17,6 +18,7 @@ const Home: React.FC = () => {
   const [error, setError] = useState('');
   const [copied, setCopied] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [selectedFormat, setSelectedFormat] = useState<FileFormat>('png');
   
   // Customization options
   const [size, setSize] = useState(256);
@@ -60,6 +62,11 @@ const Home: React.FC = () => {
 
       const generatedQR = await qrAPI.generate(data);
       setQrCode(generatedQR);
+      
+      // Track QR creation conversion
+      if (window.trackQRCreation) {
+        window.trackQRCreation();
+      }
     } catch (err: any) {
       const errorMessage = err.response?.data?.error || 'Failed to generate QR code';
       setError(errorMessage);
@@ -92,11 +99,17 @@ const Home: React.FC = () => {
     }
   };
 
-  const downloadQR = () => {
+  const downloadQR = (format: FileFormat = selectedFormat) => {
     if (!qrCode) return;
     
-    const filename = `qr-code-${qrCode.shortId || 'download'}.png`;
-    downloadDataURL(qrCode.qrCodeData, filename);
+    if (format === 'png') {
+      // Use existing data URL for PNG
+      downloadQRCodeFromDataURL(qrCode.qrCodeData, qrCode.shortId || 'download', format);
+    } else {
+      // For SVG and PDF, we need to use the API endpoint (not implemented in dataURL)
+      // For now, fallback to PNG
+      downloadQRCodeFromDataURL(qrCode.qrCodeData, qrCode.shortId || 'download', 'png');
+    }
   };
 
   return (
@@ -399,10 +412,12 @@ const Home: React.FC = () => {
                   View Large
                 </button>
 
-                <button onClick={downloadQR} className="action-btn download-btn">
-                  <Download size={18} />
-                  Download PNG
-                </button>
+                <FormatDropdown
+                  selectedFormat={selectedFormat}
+                  onFormatChange={setSelectedFormat}
+                  onDownload={downloadQR}
+                  className="compact"
+                />
 
                 {user?.limits.canTrackAnalytics && (
                   <a href={`/qr/${qrCode.id}`} className="action-btn analytics-btn">

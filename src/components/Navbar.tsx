@@ -25,6 +25,9 @@ const Navbar: React.FC = () => {
           <Link to="/" className="navbar-link">
             Generate
           </Link>
+          <Link to="/how-it-works" className="navbar-link">
+            How It Works
+          </Link>
           
           {user ? (
             <>
@@ -77,8 +80,17 @@ const Navbar: React.FC = () => {
             </>
           ) : (
             <div className="navbar-auth">
+              <Link to="/about" className="navbar-link">
+                About
+              </Link>
               <Link to="/pricing" className="navbar-link">
                 Pricing
+              </Link>
+              <Link to="/faq" className="navbar-link">
+                FAQ
+              </Link>
+              <Link to="/contact" className="navbar-link">
+                Contact
               </Link>
               <Link to="/login" className="navbar-link">
                 Sign In

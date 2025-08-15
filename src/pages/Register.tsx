@@ -33,6 +33,12 @@ const Register: React.FC = () => {
 
     try {
       await register(email, password, name);
+      
+      // Track signup conversion
+      if (window.trackSignup) {
+        window.trackSignup();
+      }
+      
       navigate('/dashboard');
     } catch (err: any) {
       setError(err.message);

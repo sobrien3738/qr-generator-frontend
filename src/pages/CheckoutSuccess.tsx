@@ -17,6 +17,18 @@ const CheckoutSuccess: React.FC = () => {
       try {
         const { user: updatedUser } = await authAPI.getProfile();
         updateUser(updatedUser);
+        
+        // Track successful upgrade conversion
+        if (window.trackUpgrade && updatedUser?.plan) {
+          const planValues = {
+            pro: 9,
+            business: 49
+          };
+          const planValue = planValues[updatedUser.plan as keyof typeof planValues];
+          if (planValue) {
+            window.trackUpgrade(updatedUser.plan, planValue);
+          }
+        }
       } catch (error) {
         console.error('Failed to refresh user data:', error);
       } finally {
