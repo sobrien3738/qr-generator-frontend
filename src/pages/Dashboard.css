@@ -275,21 +275,23 @@
   color: #991b1b;
 }
 
-.qr-card-footer {
+.qr-card-actions {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 0.75rem;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #f3f4f6;
+  background: #fafbfc;
   gap: 0.5rem;
   flex-wrap: wrap;
 }
 
-.qr-card-footer .qr-footer-buttons-left {
+.qr-card-actions .qr-footer-buttons-left {
   display: flex;
   gap: 0.5rem;
 }
 
-.qr-card-footer .download-section {
+.qr-card-actions .download-section {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -360,11 +362,13 @@
     width: 100%;
   }
   
-  .qr-card-footer {
+  .qr-card-actions {
+    flex-direction: column;
     gap: 0.75rem;
+    padding: 1rem;
   }
 
-  .qr-card-footer .qr-footer-buttons-left {
+  .qr-card-actions .qr-footer-buttons-left {
     justify-content: center;
   }
 }

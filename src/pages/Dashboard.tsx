@@ -280,49 +280,49 @@ const Dashboard: React.FC = () => {
                         {qrCode.isActive ? 'Active' : 'Inactive'}
                       </span>
                     </div>
+                  </div>
+                </div>
+                
+                <div className="qr-card-actions">
+                  <div className="qr-footer-buttons-left">
+                    <button
+                      onClick={() => handleView(qrCode)}
+                      className="qr-footer-btn view-btn"
+                    >
+                      <Eye size={14} />
+                      View
+                    </button>
 
-                    <div className="qr-card-footer">
-                      <div className="qr-footer-buttons-left">
+                    <a 
+                      href={`/qr/${qrCode.id}`}
+                      className="qr-footer-btn analytics-btn"
+                    >
+                      <BarChart3 size={14} />
+                      Stats
+                    </a>
+                  </div>
+                  
+                  <div className="download-section">
+                    <div className="format-selector">
+                      {(['png', 'svg', 'pdf'] as FileFormat[]).map(format => (
                         <button
-                          onClick={() => handleView(qrCode)}
-                          className="qr-footer-btn view-btn"
+                          key={format}
+                          onClick={() => setSelectedFormat(qrCode.id, format)}
+                          className={`format-option ${getSelectedFormat(qrCode.id) === format ? 'active' : ''}`}
+                          title={`Select ${format.toUpperCase()} format`}
                         >
-                          <Eye size={14} />
-                          View
+                          {format.toUpperCase()}
                         </button>
-
-                        <a 
-                          href={`/qr/${qrCode.id}`}
-                          className="qr-footer-btn analytics-btn"
-                        >
-                          <BarChart3 size={14} />
-                          Stats
-                        </a>
-                      </div>
-                      
-                      <div className="download-section">
-                        <div className="format-selector">
-                          {(['png', 'svg', 'pdf'] as FileFormat[]).map(format => (
-                            <button
-                              key={format}
-                              onClick={() => setSelectedFormat(qrCode.id, format)}
-                              className={`format-option ${getSelectedFormat(qrCode.id) === format ? 'active' : ''}`}
-                              title={`Select ${format.toUpperCase()} format`}
-                            >
-                              {format.toUpperCase()}
-                            </button>
-                          ))}
-                        </div>
-                        <button
-                          onClick={() => handleDownload(qrCode, getSelectedFormat(qrCode.id))}
-                          className="qr-footer-btn download-btn"
-                          title={`Download as ${getSelectedFormat(qrCode.id).toUpperCase()}`}
-                        >
-                          <Download size={14} />
-                          Download
-                        </button>
-                      </div>
+                      ))}
                     </div>
+                    <button
+                      onClick={() => handleDownload(qrCode, getSelectedFormat(qrCode.id))}
+                      className="qr-footer-btn download-btn"
+                      title={`Download as ${getSelectedFormat(qrCode.id).toUpperCase()}`}
+                    >
+                      <Download size={14} />
+                      Download
+                    </button>
                   </div>
                 </div>
               </div>
